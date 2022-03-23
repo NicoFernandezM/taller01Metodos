@@ -37,12 +37,40 @@ public class CarritoTaller {
         return cantidadTotalDeProductos;
     }
 
-    public static void imprimirResultados(int cantidadTotalDeProductos) {
+    public static int [] calcularPreciosCarrito(int [] carrito, int [] cantidadDeProductos) {
+        int [] preciosCarrito = new int [carrito.length];
+
+        for(int i = 0; i < carrito.length; i++) {
+            preciosCarrito[i] = (carrito[i] * cantidadDeProductos[i]);
+        }
+        return preciosCarrito;
+    }
+
+    public static int calcularPrecioTotal(int [] preciosCarrito) {
+        int precioTotal = 0;
+        for(int i = 0; i < preciosCarrito.length; i++) {
+            precioTotal += preciosCarrito[i];
+        }
+
+        return precioTotal;
+    }
+
+    public static void imprimirResultados(int [] preciosCarrito, int[] cantidadDeProductos, int cantidadTotalDeProductos, int precioTotal) {
         imprimirCantidadDeProductos(cantidadTotalDeProductos);
+        imprimirDetalles(preciosCarrito, cantidadDeProductos, precioTotal);
     }
 
     public static void imprimirCantidadDeProductos(int cantidadDeProductos) {
         System.out.println("El carrito contiene " + cantidadDeProductos + " productos.");
+    }
+
+    public static void imprimirDetalles(int [] preciosCarrito, int[] cantidadDeProductos, int precioTotal) {
+        for(int i = 0; i < cantidadDeProductos.length; i++) {
+            System.out.println("Cantidad de productos " + (i + 1) + ": " + cantidadDeProductos[i] +
+            ", Subtotal: "  + preciosCarrito[i]);
+        }
+
+        System.out.println("El total de la compra es: " + precioTotal);
     }
 
     public static void llamarFunciones() {
@@ -50,6 +78,8 @@ public class CarritoTaller {
         carrito = asignarPrecioCarrito(carrito);
         int [] cantidadDeProductos = agregarProductos(carrito);
         int cantidadTotalDeProductos = calcularCantidadTotalDeProductos(cantidadDeProductos);
-        imprimirResultados(cantidadTotalDeProductos);
+        int [] preciosCarrito = calcularPreciosCarrito(carrito, cantidadDeProductos);
+        int precioTotal = calcularPrecioTotal(preciosCarrito);
+        imprimirResultados(preciosCarrito, cantidadDeProductos, cantidadTotalDeProductos, precioTotal);
     }
 }
